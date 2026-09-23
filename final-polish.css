@@ -1,0 +1,3 @@
+/* Last-pass typography protection for the bonus covers. */
+.bonus-grid article:nth-child(2) .bonus-cover strong{font-size:17px!important;line-height:.96!important;letter-spacing:-.05em!important}
+@media(max-width:620px){.bonus-grid article:nth-child(2) .bonus-cover strong{font-size:16px!important;line-height:.95!important}}

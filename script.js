@@ -8,6 +8,11 @@ upgradeStyles.rel = 'stylesheet';
 upgradeStyles.href = 'upgrade.css';
 document.head.append(upgradeStyles);
 
+const finalPolish = document.createElement('link');
+finalPolish.rel = 'stylesheet';
+finalPolish.href = 'final-polish.css';
+document.head.append(finalPolish);
+
 document.querySelector('.hero-product').innerHTML = `
   <p class="paper-note">Terra que alimenta.<br>Vida que fica.</p>
   <div class="book-mockup" aria-label="Mockup do ebook O Sisteminha do Kenji">
