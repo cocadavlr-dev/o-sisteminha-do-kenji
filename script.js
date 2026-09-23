@@ -36,16 +36,25 @@ finalImage.outerHTML = `
 `;
 
 const bonusMeta = [
-  ['PLANNER', 'DO TERRENO', 'CADERNO DE CAMPO', '01'],
-  ['CALCULADORA', 'DE ÁREAS', 'FERRAMENTA PRÁTICA', '02'],
-  ['CHECKLIST', 'DE MATERIAIS', 'GUIA DE EXECUÇÃO', '03'],
-  ['CALENDÁRIO', 'DOS PRIMEIROS 90 DIAS', 'PLANO DE AÇÃO', '04'],
-  ['GUIA ANTES', 'DE COMEÇAR', 'PONTOS ESSENCIAIS', '05']
+  ['PLANNER', 'DO TERRENO', 'ORGANIZE O ESPAÇO', '01'],
+  ['CALCULADORA', 'DE ÁREAS', 'MEÇA COM CLAREZA', '02'],
+  ['CHECKLIST', 'DE MATERIAIS', 'PREPARE O NECESSÁRIO', '03'],
+  ['CALENDÁRIO', 'DOS PRIMEIROS 90 DIAS', 'COMECE COM RITMO', '04'],
+  ['GUIA ANTES', 'DE COMEÇAR', 'FAÇA AS ESCOLHAS CERTAS', '05']
 ];
 document.querySelectorAll('.bonus-cover').forEach((cover, index) => {
   const [top, title, label, edition] = bonusMeta[index];
-  cover.innerHTML = `<span class="bonus-series">KENJI NA ROÇA · LIVRO DE CAMPO</span><strong>${top}<br>${title}</strong><span class="bonus-rule"></span><span class="bonus-edition">${label}<b>${edition}</b></span>`;
+  cover.innerHTML = `<span class="bonus-series">KENJI NA ROÇA<br>COLEÇÃO DE CAMPO</span><strong>${top}<br>${title}</strong><span class="bonus-rule"></span><span class="bonus-edition">${label}</span><span class="bonus-number">${edition}</span>`;
 });
+
+const bonusGrid = document.querySelector('.bonus-grid');
+bonusGrid.insertAdjacentHTML('beforebegin', `
+  <div class="bonus-benefit">
+    <span class="bonus-benefit-count">+5</span>
+    <p><strong>Ferramentas de execução incluídas.</strong><br>Você não recebe só o ebook: leva os materiais para planejar, medir, organizar e começar.</p>
+    <b>JÁ INCLUSOS NA COMPRA</b>
+  </div>
+`);
 
 function enableMobileLoop(selector) {
   if (!window.matchMedia('(max-width: 620px)').matches) return;
