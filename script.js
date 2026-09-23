@@ -61,8 +61,7 @@ bonusGrid.insertAdjacentHTML('beforebegin', `
   </div>
 `);
 
-function enableMobileLoop(selector) {
-  if (!window.matchMedia('(max-width: 620px)').matches) return;
+function enableLoop(selector) {
   const rail = document.querySelector(selector);
   if (!rail || rail.querySelector('.mobile-loop-track')) return;
   const items = [...rail.children];
@@ -73,9 +72,9 @@ function enableMobileLoop(selector) {
   rail.appendChild(track);
 }
 
-enableMobileLoop('.sizes');
-enableMobileLoop('.preview-grid');
-enableMobileLoop('.bonus-grid');
+enableLoop('.sizes');
+enableLoop('.preview-grid');
+enableLoop('.bonus-grid');
 
 const testimonials = Array.from({ length: 9 }, (_, index) => `
   <article class="testimonial-card"><img src="public/images/testimonial-${index + 1}.jpg" alt="Depoimento real de leitor do Sisteminha do Kenji"></article>
