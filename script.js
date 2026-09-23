@@ -35,6 +35,22 @@ finalImage.outerHTML = `
   </div>
 `;
 
+function enableMobileLoop(selector) {
+  if (!window.matchMedia('(max-width: 620px)').matches) return;
+  const rail = document.querySelector(selector);
+  if (!rail || rail.querySelector('.mobile-loop-track')) return;
+  const items = [...rail.children];
+  const track = document.createElement('div');
+  track.className = 'mobile-loop-track';
+  items.forEach((item) => track.appendChild(item));
+  items.forEach((item) => track.appendChild(item.cloneNode(true)));
+  rail.appendChild(track);
+}
+
+enableMobileLoop('.sizes');
+enableMobileLoop('.preview-grid');
+enableMobileLoop('.bonus-grid');
+
 const testimonials = Array.from({ length: 9 }, (_, index) => `
   <article class="testimonial-card"><img src="public/images/testimonial-${index + 1}.jpg" alt="Depoimento real de leitor do Sisteminha do Kenji"></article>
 `).join('');
