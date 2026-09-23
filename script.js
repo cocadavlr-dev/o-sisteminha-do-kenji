@@ -35,6 +35,18 @@ finalImage.outerHTML = `
   </div>
 `;
 
+const bonusMeta = [
+  ['PLANNER', 'DO TERRENO', 'CADERNO DE CAMPO', '01'],
+  ['CALCULADORA', 'DE ÁREAS', 'FERRAMENTA PRÁTICA', '02'],
+  ['CHECKLIST', 'DE MATERIAIS', 'GUIA DE EXECUÇÃO', '03'],
+  ['CALENDÁRIO', 'DOS PRIMEIROS 90 DIAS', 'PLANO DE AÇÃO', '04'],
+  ['GUIA ANTES', 'DE COMEÇAR', 'PONTOS ESSENCIAIS', '05']
+];
+document.querySelectorAll('.bonus-cover').forEach((cover, index) => {
+  const [top, title, label, edition] = bonusMeta[index];
+  cover.innerHTML = `<span class="bonus-series">KENJI NA ROÇA · LIVRO DE CAMPO</span><strong>${top}<br>${title}</strong><span class="bonus-rule"></span><span class="bonus-edition">${label}<b>${edition}</b></span>`;
+});
+
 function enableMobileLoop(selector) {
   if (!window.matchMedia('(max-width: 620px)').matches) return;
   const rail = document.querySelector(selector);
