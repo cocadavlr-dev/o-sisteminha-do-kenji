@@ -1,13 +1,13 @@
 const checkout = 'https://pay.hotmart.com/G107731658H';
 
 const projects = [
-  { size: '10 m²', name: 'Primeiro Sisteminha', quote: 'Quero começar pequeno.', focus: 'Horta compacta, água, compostagem e circulação.', points: ['Horta compacta', 'Água planejada', 'Compostagem', 'Circulação'] },
-  { size: '20 m²', name: 'Horta ampliada', quote: 'Quero plantar em etapas.', focus: 'Mais área de horta e plantio escalonado.', points: ['Mais canteiros', 'Plantio em etapas', 'Espaço organizado', 'Rotina possível'] },
-  { size: '30 m²', name: 'Horta diversificada', quote: 'Quero diversificar.', focus: 'Canteiros, cultivo vertical e plantas de maior permanência.', points: ['Canteiros', 'Cultivo vertical', 'Plantas perenes', 'Circulação'] },
-  { size: '50 m²', name: 'Quintal produtivo', quote: 'Quero integrar horta e perenes.', focus: 'Horta e área para frutíferas ou perenes.', points: ['Horta', 'Perenes', 'Setores claros', 'Começo gradual'] },
-  { size: '100 m²', name: 'Sistema diversificado', quote: 'Tenho mais espaço e quero organizar.', focus: 'Organização por setores e circulação.', points: ['Setores', 'Circulação', 'Água planejada', 'Mais clareza'] },
-  { size: '250 m²', name: 'Sistema familiar', quote: 'Quero integrar mais módulos.', focus: 'Horta, pomar ou perenes, organização e área reservada para módulo de aves.', points: ['Horta', 'Pomar ou perenes', 'Área reservada', 'Módulos'] },
-  { size: '500 m²', name: 'Sistema expandido', quote: 'Quero organizar uma área maior.', focus: 'Setores, circulação, água, pomar ou perenes, área reservada para aves e expansão em etapas.', points: ['Setores', 'Água', 'Expansão gradual', 'Área reservada'] }
+  { size: '10 m²', image: 'project-10m2-aerial.png', name: 'Primeiro Sisteminha', quote: 'Quero começar pequeno.', focus: 'Horta compacta, água, compostagem e circulação.', points: ['Horta compacta', 'Água planejada', 'Compostagem', 'Circulação'] },
+  { size: '20 m²', image: 'project-20m2-aerial.png', name: 'Horta ampliada', quote: 'Quero plantar em etapas.', focus: 'Mais área de horta e plantio escalonado.', points: ['Mais canteiros', 'Plantio em etapas', 'Espaço organizado', 'Rotina possível'] },
+  { size: '30 m²', image: 'project-30m2-aerial.png', name: 'Horta diversificada', quote: 'Quero diversificar.', focus: 'Canteiros, cultivo vertical e plantas de maior permanência.', points: ['Canteiros', 'Cultivo vertical', 'Plantas perenes', 'Circulação'] },
+  { size: '50 m²', image: 'project-50m2-aerial.png', name: 'Quintal produtivo', quote: 'Quero integrar horta e perenes.', focus: 'Horta e área para frutíferas ou perenes.', points: ['Horta', 'Perenes', 'Setores claros', 'Começo gradual'] },
+  { size: '100 m²', image: 'project-100m2-aerial.png', name: 'Sistema diversificado', quote: 'Tenho mais espaço e quero organizar.', focus: 'Organização por setores e circulação.', points: ['Setores', 'Circulação', 'Água planejada', 'Mais clareza'] },
+  { size: '250 m²', image: 'project-250m2-aerial.png', name: 'Sistema familiar', quote: 'Quero integrar mais módulos.', focus: 'Horta, pomar ou perenes, organização e área reservada para módulo de aves.', points: ['Horta', 'Pomar ou perenes', 'Área reservada', 'Módulos'] },
+  { size: '500 m²', image: 'project-500m2-aerial.png', name: 'Sistema expandido', quote: 'Quero organizar uma área maior.', focus: 'Setores, circulação, água, pomar ou perenes, área reservada para aves e expansão em etapas.', points: ['Setores', 'Água', 'Expansão gradual', 'Área reservada'] }
 ];
 
 const bonuses = [
@@ -75,6 +75,7 @@ const journeyMap = [
 
 document.querySelectorAll('.checkout').forEach(link => link.href = checkout);
 document.getElementById('year').textContent = new Date().getFullYear();
+document.querySelector('.hero-benefits').insertAdjacentHTML('beforebegin', '<aside class="hero-bonus-callout"><span>+ 5 BÔNUS PRÁTICOS INCLUSOS</span><b>Planeje, plante, compre e cuide com materiais de apoio.</b><a href="#bonus">CONHEÇA OS 5 BÔNUS →</a></aside>');
 
 document.getElementById('situations').innerHTML = situations.map(([title, text]) => `<article class="situation"><b>${title}</b><span>${text}</span></article>`).join('');
 document.getElementById('method-flow').innerHTML = method.map(([title, text]) => `<li><b>${title}</b><p>${text}</p></li>`).join('');
@@ -97,7 +98,7 @@ function renderProject(index) {
   const project = projects[activeProject];
   tabs.innerHTML = projects.map((item, itemIndex) => `<button class="project-tab" type="button" role="tab" aria-selected="${itemIndex === activeProject}" data-project-index="${itemIndex}">${item.size}</button>`).join('');
   projectCount.textContent = `${activeProject + 1} / ${projects.length}`;
-  showcase.innerHTML = `<div class="project-diagram" aria-label="Diagrama ilustrativo do projeto de ${project.size}"><i class="plot one"></i><i class="plot two"></i><i class="plot three"></i></div><div class="project-copy"><p class="project-number">PROJETO ${String(activeProject + 1).padStart(2, '0')} · ${project.size}</p><h3>${project.name}</h3><p class="project-quote">“${project.quote}”</p><p class="project-focus">${project.focus}</p><ul>${project.points.map(point => `<li>${point}</li>`).join('')}</ul></div>`;
+  showcase.innerHTML = `<figure class="project-aerial"><img src="public/images/${project.image}" alt="Vista aérea panorâmica ilustrativa de como pode ficar um Sisteminha de ${project.size}" loading="lazy"><figcaption>VISTA AÉREA ILUSTRATIVA · ORGANIZAÇÃO POSSÍVEL PARA ${project.size}</figcaption></figure><div class="project-copy"><p class="project-number">PROJETO ${String(activeProject + 1).padStart(2, '0')} · ${project.size}</p><h3>${project.name}</h3><p class="project-quote">“${project.quote}”</p><p class="project-focus">${project.focus}</p><ul>${project.points.map(point => `<li>${point}</li>`).join('')}</ul></div>`;
   tabs.querySelectorAll('[data-project-index]').forEach(button => button.addEventListener('click', () => renderProject(Number(button.dataset.projectIndex))));
 }
 renderProject(0);
