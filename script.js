@@ -75,7 +75,23 @@ const journeyMap = [
 
 document.querySelectorAll('.checkout').forEach(link => link.href = checkout);
 document.getElementById('year').textContent = new Date().getFullYear();
-document.querySelector('.hero-benefits').insertAdjacentHTML('afterend', '<aside class="hero-bonus-callout"><span>+ 5 BÔNUS PRÁTICOS INCLUSOS</span><b>Planner, Guia de Plantio, Lista de Compras, Calendário e SOS Horta.</b><div class="hero-bonus-mini" aria-hidden="true"><i>01</i><i>02</i><i>03</i><i>04</i><i>05</i></div><a href="#bonus">VEJA OS 5 MATERIAIS →</a></aside>');
+document.querySelector('.hero-benefits').insertAdjacentHTML('afterend', `
+  <aside class="hero-bonus-callout" aria-label="Cinco bônus práticos inclusos na coleção">
+    <div class="hero-bonus-callout-copy">
+      <span>VOCÊ TAMBÉM LEVA 5 BÔNUS PRÁTICOS</span>
+      <b>Planeje, plante, compre e cuide sem ficar travado na próxima dúvida.</b>
+    </div>
+    <div class="hero-bonus-books" aria-hidden="true">
+      ${bonuses.map((bonus, index) => `
+        <figure style="--book-tilt:${[-2, 1.5, -1, 1.25, -1.5][index]}deg">
+          <img src="public/images/${bonus.page}" alt="" width="993" height="1404" decoding="async">
+          <i>${bonus.number}</i>
+        </figure>
+      `).join('')}
+    </div>
+    <a href="#bonus">VER OS 5 BÔNUS EM DETALHE →</a>
+  </aside>
+`);
 
 document.querySelectorAll('.collection-book img, .final-art img').forEach(image => {
   image.width = 1241;
