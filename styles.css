@@ -48,18 +48,24 @@
 }
 .hero-backdrop{background-position:88% center}
 
-/* Compact real-page previews: clear enough to inspect, small enough to read as a gallery. */
-.preview-gallery{max-width:1060px;margin-inline:auto;padding-inline:3rem}
-.preview-rail{display:flex;gap:1.25rem;padding:.6rem 0 1.1rem;overflow-x:auto;scroll-snap-type:x mandatory;scroll-snap-stop:always;clip-path:inset(0)}
+/* Veja por dentro: all real pages use a single, stable editorial format. */
+.preview-gallery{max-width:1120px;margin-inline:auto;padding-inline:3.4rem}
+.preview-rail{display:flex;align-items:stretch;gap:1.1rem;padding:.55rem 0 1.2rem;overflow-x:auto;scroll-snap-type:x mandatory;scroll-snap-stop:always;clip-path:inset(0)}
 #previews{scroll-snap-type:x mandatory}
-.preview-card{flex:0 0 clamp(230px,24vw,300px);margin:0;transform:none!important;scroll-snap-align:start;scroll-snap-stop:always}
-.preview-card img{width:100%;aspect-ratio:778/1100;object-fit:contain;object-position:center top;background:var(--paper)}
+.preview-card{flex:0 0 252px;display:flex;flex-direction:column;margin:0;overflow:hidden;background:var(--paper);border:1px solid #d8ceb9;box-shadow:0 14px 28px #092d2024;transform:none!important;scroll-snap-align:start;scroll-snap-stop:always}
+.preview-page{width:100%;aspect-ratio:1240/1754;overflow:hidden;background:#f6f0e2;border-bottom:1px solid #d8ceb9}
+.preview-card img{display:block;width:100%;height:100%;object-fit:contain;object-position:center;background:#f6f0e2}
+.preview-card figcaption{min-height:68px;padding:.72rem .8rem;background:var(--paper)}
+.preview-card figcaption b,.preview-card figcaption span{display:block}
+.preview-card figcaption b{font:1rem/1.05 var(--serif)}
+.preview-card figcaption span{margin-top:.28rem;color:var(--muted);font-size:.59rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.inside-journey{max-width:680px;margin:1.1rem auto 0;text-align:center;color:var(--muted);font:1rem/1.45 var(--serif)}
 .preview-gallery .rail-button.previous{left:0}
 .preview-gallery .rail-button.next{right:0}
 @media(max-width:620px){
   .preview-gallery{padding-inline:2.15rem}
   .preview-rail{gap:.75rem;padding:.25rem 0 1rem}
-  .preview-card{flex-basis:82%}
+  .preview-card{flex:0 0 min(78vw,300px)}
   .preview-gallery .rail-button{top:48%}
   .preview-gallery .rail-button.previous{left:-.1rem}
   .preview-gallery .rail-button.next{right:-.1rem}

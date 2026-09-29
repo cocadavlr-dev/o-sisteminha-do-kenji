@@ -89,17 +89,15 @@ document.getElementById('journey-grid').innerHTML = journey.map(([title, items],
 document.getElementById('journey-map').innerHTML = journeyMap.map(([title, text]) => `<article class="map-step"><span>${title}</span><b>${text}</b></article>`).join('');
 
 const previewItems = [
-  ['preview-guia-00.png', 'Guia 00: o que observar no terreno'],
-  ['preview-10m2.png', 'Projeto 10 m²: confira antes de cavar'],
-  ['preview-20m2.png', 'Projeto 20 m²: medidas da horta'],
-  ['preview-30m2.png', 'Projeto 30 m²: organização dos canteiros'],
-  ['preview-50m2.png', 'Projeto 50 m²: leitura do terreno'],
-  ['preview-100m2.png', 'Projeto 100 m²: caminho principal'],
-  ['preview-250m2.png', 'Projeto 250 m²: marcação do retângulo'],
-  ['preview-500m2.png', 'Projeto 500 m²: dimensões do espaço']
+  ['inside-01-divida.png', 'Onde coloco cada coisa?', 'Projeto 10 m² · página 06'],
+  ['inside-02-marque.png', 'Como marco no terreno?', 'Projeto 10 m² · página 05'],
+  ['inside-03-terra.png', 'O que faço depois de marcar?', 'Projeto 10 m² · página 09'],
+  ['inside-04-plante.png', 'O que planto primeiro?', 'Guia de Plantio · página 10'],
+  ['inside-05-confira.png', 'Como sei que fiz certo?', 'Projeto 10 m² · página 08'],
+  ['inside-06-cuide.png', 'E depois, como cuido?', 'SOS Horta · página 02']
 ];
 const previewRail = document.getElementById('previews');
-const previewMarkup = previewItems.map(([image, label], index) => `<figure class="preview-card" style="--rotate:${[-2, 1.5, -1, 1, -1.5, 1.2, -1, 1.5][index]}"><img src="public/images/${image}" alt="Página real do material: ${label}" width="778" height="1100" loading="lazy"><figcaption>${label}</figcaption></figure>`).join('');
+const previewMarkup = previewItems.map(([image, question, source]) => `<figure class="preview-card"><div class="preview-page"><img src="public/images/${image}" alt="Página real do material: ${question}" width="1240" height="1754" loading="lazy"></div><figcaption><b>${question}</b><span>${source}</span></figcaption></figure>`).join('');
 previewRail.innerHTML = previewMarkup;
 previewRail.scrollTo({ left: 0, behavior: 'auto' });
 
