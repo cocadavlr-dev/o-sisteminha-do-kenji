@@ -89,11 +89,31 @@ document.getElementById('journey-grid').innerHTML = journey.map(([title, items],
 document.getElementById('journey-map').innerHTML = journeyMap.map(([title, text]) => `<article class="map-step"><span>${title}</span><b>${text}</b></article>`).join('');
 
 const previewItems = [
-  ['ebook-plan-03.png', 'Planta e organização do espaço'],
-  ['ebook-water-06.png', 'Página sobre água e estrutura'],
-  ['ebook-chickens-10.png', 'Página de organização do módulo de aves']
+  ['preview-guia-00.png', 'Guia 00: o que observar no terreno'],
+  ['preview-10m2.png', 'Projeto 10 m²: confira antes de cavar'],
+  ['preview-20m2.png', 'Projeto 20 m²: medidas da horta'],
+  ['preview-30m2.png', 'Projeto 30 m²: organização dos canteiros'],
+  ['preview-50m2.png', 'Projeto 50 m²: leitura do terreno'],
+  ['preview-100m2.png', 'Projeto 100 m²: caminho principal'],
+  ['preview-250m2.png', 'Projeto 250 m²: marcação do retângulo'],
+  ['preview-500m2.png', 'Projeto 500 m²: dimensões do espaço']
 ];
-document.getElementById('previews').innerHTML = previewItems.map(([image, label], index) => `<figure class="preview-card" style="--rotate:${[-2, 1.5, -1][index]}deg"><img src="public/images/${image}" alt="Página real do material: ${label}" width="1241" height="1754" loading="lazy"><figcaption>${label}</figcaption></figure>`).join('');
+const previewRail = document.getElementById('previews');
+const previewMarkup = previewItems.map(([image, label], index) => `<figure class="preview-card" style="--rotate:${[-2, 1.5, -1, 1, -1.5, 1.2, -1, 1.5][index]}"><img src="public/images/${image}" alt="Página real do material: ${label}" width="778" height="1100" loading="lazy"><figcaption>${label}</figcaption></figure>`).join('');
+previewRail.innerHTML = previewMarkup + previewItems.map(([image, label], index) => `<figure class="preview-card" aria-hidden="true" style="--rotate:${[-2, 1.5, -1, 1, -1.5, 1.2, -1, 1.5][index]}"><img src="public/images/${image}" alt="" width="778" height="1100" loading="lazy"><figcaption>${label}</figcaption></figure>`).join('');
+
+let previewPaused = false;
+const reducedPreviewMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+function movePreviewRail() {
+  if (!previewPaused && !reducedPreviewMotion.matches && previewRail.scrollWidth > previewRail.clientWidth) {
+    previewRail.scrollLeft += .22;
+    if (previewRail.scrollLeft >= previewRail.scrollWidth / 2) previewRail.scrollLeft = 0;
+  }
+}
+['mouseenter', 'focusin', 'touchstart', 'pointerdown'].forEach(event => previewRail.addEventListener(event, () => { previewPaused = true; }, { passive: true }));
+['mouseleave', 'focusout', 'touchend', 'pointerup'].forEach(event => previewRail.addEventListener(event, () => { previewPaused = false; }, { passive: true }));
+document.addEventListener('visibilitychange', () => { previewPaused = document.hidden; });
+window.setInterval(movePreviewRail, 30);
 
 const tabs = document.getElementById('project-tabs');
 const showcase = document.getElementById('project-showcase');
