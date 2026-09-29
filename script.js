@@ -89,15 +89,15 @@ document.getElementById('journey-grid').innerHTML = journey.map(([title, items],
 document.getElementById('journey-map').innerHTML = journeyMap.map(([title, text]) => `<article class="map-step"><span>${title}</span><b>${text}</b></article>`).join('');
 
 const previewItems = [
-  ['inside-01-divida.png', 'Onde coloco cada coisa?', 'Projeto 10 m² · página 06'],
-  ['inside-02-marque.png', 'Como marco no terreno?', 'Projeto 10 m² · página 05'],
-  ['inside-03-terra.png', 'O que faço depois de marcar?', 'Projeto 10 m² · página 09'],
-  ['inside-04-plante.png', 'O que planto primeiro?', 'Guia de Plantio · página 10'],
-  ['inside-05-confira.png', 'Como sei que fiz certo?', 'Projeto 10 m² · página 08'],
-  ['inside-06-cuide.png', 'E depois, como cuido?', 'SOS Horta · página 02']
+  { page: 'inside-01-divida.png', photo: 'inside-photo-layout.png', stage: 'ORGANIZE O TERRENO', sceneTitle: 'Cada setor tem um lugar.', sceneText: 'Horta, água, composto e passagem.', question: 'Onde coloco cada coisa?', source: 'Projeto 10 m² · página 06', visual: 'zones', visualTitle: 'Leitura do espaço', labels: ['HORTA · 6 m²', 'ÁGUA · 1 m²', 'COMPOSTO · 1 m²', 'ACESSO · 2 m²'] },
+  { page: 'inside-02-marque.png', photo: 'inside-photo-marking.png', stage: 'MARQUE ANTES', sceneTitle: 'O retângulo começa certo.', sceneText: 'Medida, estaca e barbante antes de cavar.', question: 'Como marco no terreno?', source: 'Projeto 10 m² · página 05', visual: 'measure', visualTitle: 'Marcação no chão', labels: ['2 × 5 m', 'ESTACAS', 'BARBANTE', 'DIAGONAIS IGUAIS'] },
+  { page: 'inside-03-terra.png', photo: 'inside-photo-soil.png', stage: 'PREPARE A TERRA', sceneTitle: 'Faça uma etapa por vez.', sceneText: 'Limpe, solte e nivele o canteiro.', question: 'O que faço depois de marcar?', source: 'Projeto 10 m² · página 09', visual: 'steps', visualTitle: 'Preparo simples', labels: ['01 LIMPE', '02 SOLTE', '03 NIVELE'] },
+  { page: 'inside-04-plante.png', photo: 'inside-photo-planting.png', stage: 'PLANTE COM CALMA', sceneTitle: 'Comece com poucas culturas.', sceneText: 'O começo cabe na sua rotina.', question: 'O que planto primeiro?', source: 'Guia de Plantio · página 10', visual: 'plant', visualTitle: 'Plantio possível', labels: ['1 FOLHA', '1 TEMPERO', '1 RAIZ'] },
+  { page: 'inside-05-confira.png', photo: 'inside-photo-layout.png', stage: 'PARE E CONFIRA', sceneTitle: 'O corredor também é projeto.', sceneText: 'Alcance as plantas sem pisar no canteiro.', question: 'Como sei que fiz certo?', source: 'Projeto 10 m² · página 08', visual: 'path', visualTitle: 'Medidas para circular', labels: ['CANTEIRO · 70 cm', 'CORREDOR · 40 cm', 'COMPRIMENTO · 2,40 m'] },
+  { page: 'inside-06-cuide.png', photo: 'inside-photo-care.png', stage: 'CUIDE OBSERVANDO', sceneTitle: 'Antes de corrigir, entenda.', sceneText: 'Olhe, toque e compare.', question: 'E depois, como cuido?', source: 'SOS Horta · página 02', visual: 'observe', visualTitle: 'Rotina de observação', labels: ['PARE', 'OLHE', 'TOQUE'] }
 ];
 const previewRail = document.getElementById('previews');
-const previewMarkup = previewItems.map(([image, question, source]) => `<figure class="preview-card"><div class="preview-page"><img src="public/images/${image}" alt="Página real do material: ${question}" width="1240" height="1754" loading="lazy"></div><figcaption><b>${question}</b><span>${source}</span></figcaption></figure>`).join('');
+const previewMarkup = previewItems.map(({ page, photo, stage, sceneTitle, sceneText, question, source, labels, visual, visualTitle }) => `<figure class="preview-card preview-card--${visual}"><div class="preview-scene"><img src="public/images/${photo}" alt="Cena de campo ilustrativa: ${question}" width="1024" height="1536" loading="lazy"><span class="preview-scene-kicker">${stage}</span><div class="preview-scene-copy"><strong>${sceneTitle}</strong><span>${sceneText}</span></div><div class="preview-visual" aria-label="${visualTitle}"><span>${visualTitle}</span><div class="preview-labels">${labels.map(label => `<b>${label}</b>`).join('')}</div></div></div><div class="preview-proof"><img src="public/images/${page}" alt="Página real do material: ${question}" width="1240" height="1754" loading="lazy"><figcaption><b>${question}</b><span>${source}</span></figcaption></div></figure>`).join('');
 previewRail.innerHTML = previewMarkup;
 previewRail.scrollTo({ left: 0, behavior: 'auto' });
 
