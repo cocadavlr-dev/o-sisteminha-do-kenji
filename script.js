@@ -104,13 +104,35 @@ renderProject(0);
 document.querySelectorAll('[data-project-direction]').forEach(button => button.addEventListener('click', () => renderProject(activeProject + (button.dataset.projectDirection === 'next' ? 1 : -1))));
 
 document.getElementById('offer-stack').innerHTML = `<article class="stack-block"><span>GUIA 00</span><h3>Escolha seu começo</h3><p>Observe o espaço real antes de abrir um projeto.</p></article><article class="stack-block"><span>7 PROJETOS COMPLETOS</span><h3>10 a 500 m²</h3><div class="stack-numbers">${projects.map(item => `<b>${item.size.replace(' m²', '')}</b>`).join('')}</div></article><article class="stack-block"><span>5 BÔNUS PRÁTICOS</span><h3>Apoio para continuar</h3><p>Materiais para planejar, plantar, comprar e observar.</p></article>`;
-document.getElementById('bonus-grid').innerHTML = bonuses.map((bonus, index) => `<article class="bonus-card"><div class="bonus-top" style="--tilt:${[-2, 1.2, -1, 1.5, -1.5][index]}deg"><span class="bonus-number">BÔNUS ${bonus.number}</span><h3>${bonus.title}</h3></div><p>“${bonus.prompt}”</p><small>${bonus.text}</small></article>`).join('');
+const bonusGrid = document.getElementById('bonus-grid');
+bonusGrid.innerHTML = bonuses.map((bonus, index) => `<article class="bonus-card"><div class="bonus-top" style="--tilt:${[-2, 1.2, -1, 1.5, -1.5][index]}deg"><span class="bonus-number">BÔNUS ${bonus.number}</span><h3>${bonus.title}</h3></div><p>“${bonus.prompt}”</p><small>${bonus.text}</small></article>`).join('');
+bonusGrid.insertAdjacentHTML('afterend', '<div class="bonus-controls" aria-label="Navegação dos bônus"><button type="button" data-bonus-direction="previous" aria-label="Bônus anterior">←</button><span>Deslize para conhecer os 5 bônus</span><button type="button" data-bonus-direction="next" aria-label="Próximo bônus">→</button></div>');
 document.getElementById('offer-list').innerHTML = [`Guia 00 — Qual Sisteminha é para mim?`, ...projects.map(project => `Projeto ${project.size}`), ...bonuses.map(bonus => bonus.title)].map(item => `<p>${item}</p>`).join('');
 document.getElementById('faq-grid').innerHTML = faqs.map(([question, answer]) => `<details class="faq-item"><summary>${question}</summary><p>${answer}</p></details>`).join('');
 
 const testimonialRail = document.getElementById('testimonials-rail');
 testimonialRail.innerHTML = testimonials.map(([image, quote, author]) => `<article class="testimonial-card"><img src="public/images/${image}" alt="Leitor do Sisteminha do Kenji" loading="lazy"><blockquote>${quote}</blockquote><footer><b>${author}</b></footer></article>`).join('');
 document.querySelectorAll('[data-testimonial-direction]').forEach(button => button.addEventListener('click', () => testimonialRail.scrollBy({ left: (button.dataset.testimonialDirection === 'next' ? 1 : -1) * testimonialRail.clientWidth * .82, behavior: 'smooth' })));
+
+document.querySelectorAll('[data-bonus-direction]').forEach(button => button.addEventListener('click', () => bonusGrid.scrollBy({ left: (button.dataset.bonusDirection === 'next' ? 1 : -1) * bonusGrid.clientWidth * .82, behavior: 'smooth' })));
+
+let testimonialTimer;
+const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+function stopTestimonialAutoplay() { window.clearInterval(testimonialTimer); }
+function startTestimonialAutoplay() {
+  stopTestimonialAutoplay();
+  if (window.innerWidth <= 620 || reducedMotion.matches) return;
+  testimonialTimer = window.setInterval(() => {
+    const atEnd = testimonialRail.scrollLeft >= testimonialRail.scrollWidth - testimonialRail.clientWidth - 8;
+    if (atEnd) testimonialRail.scrollTo({ left: 0, behavior: 'auto' });
+    else testimonialRail.scrollBy({ left: testimonialRail.clientWidth * .34, behavior: 'smooth' });
+  }, 7000);
+}
+['mouseenter', 'focusin', 'touchstart'].forEach(event => testimonialRail.addEventListener(event, stopTestimonialAutoplay, { passive: true }));
+['mouseleave', 'focusout'].forEach(event => testimonialRail.addEventListener(event, startTestimonialAutoplay));
+window.addEventListener('resize', startTestimonialAutoplay);
+reducedMotion.addEventListener?.('change', startTestimonialAutoplay);
+startTestimonialAutoplay();
 
 document.querySelectorAll('[data-rail]').forEach(button => button.addEventListener('click', () => { const rail = document.getElementById(button.dataset.rail); rail.scrollBy({ left: (button.classList.contains('next') ? 1 : -1) * rail.clientWidth * .72, behavior: 'smooth' }); }));
 
