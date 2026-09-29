@@ -134,6 +134,10 @@ function renderProject(index) {
 }
 renderProject(0);
 document.querySelectorAll('[data-project-direction]').forEach(button => button.addEventListener('click', () => renderProject(activeProject + (button.dataset.projectDirection === 'next' ? 1 : -1))));
+let projectPaused = false;
+['mouseenter', 'focusin', 'touchstart', 'pointerdown'].forEach(event => showcase.addEventListener(event, () => { projectPaused = true; }, { passive: true }));
+['mouseleave', 'focusout', 'touchend', 'pointerup'].forEach(event => showcase.addEventListener(event, () => { projectPaused = false; }, { passive: true }));
+window.setInterval(() => { if (!projectPaused && !reducedPreviewMotion.matches) renderProject(activeProject + 1); }, 6200);
 
 document.getElementById('offer-stack').innerHTML = `<article class="stack-block"><span>GUIA 00</span><h3>Escolha seu começo</h3><p>Observe o espaço real antes de abrir um projeto.</p></article><article class="stack-block"><span>7 PROJETOS COMPLETOS</span><h3>10 a 500 m²</h3><div class="stack-numbers">${projects.map(item => `<b>${item.size.replace(' m²', '')}</b>`).join('')}</div></article><article class="stack-block"><span>5 BÔNUS PRÁTICOS</span><h3>Apoio para continuar</h3><p>Materiais para planejar, plantar, comprar e observar.</p></article>`;
 const bonusGrid = document.getElementById('bonus-grid');
@@ -144,7 +148,22 @@ document.querySelector('.offer-card > span').insertAdjacentHTML('afterend', '<di
 document.getElementById('faq-grid').innerHTML = faqs.map(([question, answer]) => `<details class="faq-item"><summary>${question}</summary><p>${answer}</p></details>`).join('');
 
 const testimonialRail = document.getElementById('testimonials-rail');
-testimonialRail.innerHTML = testimonials.map(([image, quote, author]) => `<article class="testimonial-card"><img src="public/images/${image}" alt="Leitor do Sisteminha do Kenji" width="340" height="270" loading="lazy"><blockquote>${quote}</blockquote><footer><b>${author}</b></footer></article>`).join('');
+const testimonialMarkup = testimonials.map(([image, quote, author]) => `<article class="testimonial-card"><img src="public/images/${image}" alt="Leitor do Sisteminha do Kenji" width="340" height="270" loading="lazy"><blockquote>${quote}</blockquote><footer><b>${author}</b></footer></article>`).join('');
+testimonialRail.innerHTML = testimonialMarkup + testimonials.map(([image, quote, author]) => `<article class="testimonial-card" aria-hidden="true"><img src="public/images/${image}" alt="" width="340" height="270" loading="lazy"><blockquote>${quote}</blockquote><footer><b>${author}</b></footer></article>`).join('');
+let testimonialsPaused = false;
+let testimonialLastFrame = 0;
+function moveTestimonials(timestamp) {
+  if (!testimonialsPaused && !reducedPreviewMotion.matches && !document.hidden) {
+    const elapsed = Math.min(timestamp - testimonialLastFrame, 32);
+    testimonialRail.scrollLeft += elapsed * .035;
+    if (testimonialRail.scrollLeft >= testimonialRail.scrollWidth / 2) testimonialRail.scrollLeft = 0;
+  }
+  testimonialLastFrame = timestamp;
+  window.requestAnimationFrame(moveTestimonials);
+}
+['mouseenter', 'focusin', 'touchstart', 'pointerdown'].forEach(event => testimonialRail.addEventListener(event, () => { testimonialsPaused = true; }, { passive: true }));
+['mouseleave', 'focusout', 'touchend', 'pointerup'].forEach(event => testimonialRail.addEventListener(event, () => { testimonialsPaused = false; }, { passive: true }));
+window.requestAnimationFrame(moveTestimonials);
 document.querySelectorAll('[data-testimonial-direction]').forEach(button => button.addEventListener('click', () => testimonialRail.scrollBy({ left: (button.dataset.testimonialDirection === 'next' ? 1 : -1) * testimonialRail.clientWidth * .82, behavior: 'smooth' })));
 
 document.querySelectorAll('[data-bonus-direction]').forEach(button => button.addEventListener('click', () => bonusGrid.scrollBy({ left: (button.dataset.bonusDirection === 'next' ? 1 : -1) * bonusGrid.clientWidth * .82, behavior: 'smooth' })));
