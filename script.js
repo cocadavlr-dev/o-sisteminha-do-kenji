@@ -100,20 +100,24 @@ const previewItems = [
 ];
 const previewRail = document.getElementById('previews');
 const previewMarkup = previewItems.map(([image, label], index) => `<figure class="preview-card" style="--rotate:${[-2, 1.5, -1, 1, -1.5, 1.2, -1, 1.5][index]}"><img src="public/images/${image}" alt="Página real do material: ${label}" width="778" height="1100" loading="lazy"><figcaption>${label}</figcaption></figure>`).join('');
-previewRail.innerHTML = previewMarkup + previewItems.map(([image, label], index) => `<figure class="preview-card" aria-hidden="true" style="--rotate:${[-2, 1.5, -1, 1, -1.5, 1.2, -1, 1.5][index]}"><img src="public/images/${image}" alt="" width="778" height="1100" loading="lazy"><figcaption>${label}</figcaption></figure>`).join('');
+previewRail.innerHTML = previewMarkup;
+previewRail.scrollTo({ left: 0, behavior: 'auto' });
 
 let previewPaused = false;
+let activePreview = 0;
 const reducedPreviewMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+function showPreview(index, behavior = 'smooth') {
+  const cards = previewRail.querySelectorAll('.preview-card');
+  activePreview = (index + cards.length) % cards.length;
+  previewRail.scrollTo({ left: cards[activePreview].offsetLeft, behavior });
+}
 function movePreviewRail() {
-  if (!previewPaused && !reducedPreviewMotion.matches && previewRail.scrollWidth > previewRail.clientWidth) {
-    previewRail.scrollLeft += .22;
-    if (previewRail.scrollLeft >= previewRail.scrollWidth / 2) previewRail.scrollLeft = 0;
-  }
+  if (!previewPaused && !reducedPreviewMotion.matches) showPreview(activePreview + 1);
 }
 ['mouseenter', 'focusin', 'touchstart', 'pointerdown'].forEach(event => previewRail.addEventListener(event, () => { previewPaused = true; }, { passive: true }));
 ['mouseleave', 'focusout', 'touchend', 'pointerup'].forEach(event => previewRail.addEventListener(event, () => { previewPaused = false; }, { passive: true }));
 document.addEventListener('visibilitychange', () => { previewPaused = document.hidden; });
-window.setInterval(movePreviewRail, 30);
+window.setInterval(movePreviewRail, 5500);
 
 const tabs = document.getElementById('project-tabs');
 const showcase = document.getElementById('project-showcase');
@@ -145,7 +149,7 @@ document.querySelectorAll('[data-testimonial-direction]').forEach(button => butt
 
 document.querySelectorAll('[data-bonus-direction]').forEach(button => button.addEventListener('click', () => bonusGrid.scrollBy({ left: (button.dataset.bonusDirection === 'next' ? 1 : -1) * bonusGrid.clientWidth * .82, behavior: 'smooth' })));
 
-document.querySelectorAll('[data-rail]').forEach(button => button.addEventListener('click', () => { const rail = document.getElementById(button.dataset.rail); rail.scrollBy({ left: (button.classList.contains('next') ? 1 : -1) * rail.clientWidth * .72, behavior: 'smooth' }); }));
+document.querySelectorAll('[data-rail]').forEach(button => button.addEventListener('click', () => { if (button.dataset.rail === 'previews') { showPreview(activePreview + (button.classList.contains('next') ? 1 : -1)); return; } const rail = document.getElementById(button.dataset.rail); rail.scrollBy({ left: (button.classList.contains('next') ? 1 : -1) * rail.clientWidth * .72, behavior: 'smooth' }); }));
 
 const menu = document.querySelector('.menu'); const nav = document.getElementById('nav');
 menu.addEventListener('click', () => { const isOpen = nav.classList.toggle('open'); menu.setAttribute('aria-expanded', String(isOpen)); });
