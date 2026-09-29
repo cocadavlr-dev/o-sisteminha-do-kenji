@@ -75,7 +75,13 @@ const journeyMap = [
 
 document.querySelectorAll('.checkout').forEach(link => link.href = checkout);
 document.getElementById('year').textContent = new Date().getFullYear();
-document.querySelector('.hero-benefits').insertAdjacentHTML('beforebegin', '<aside class="hero-bonus-callout"><span>+ 5 BÔNUS PRÁTICOS INCLUSOS</span><b>Planeje, plante, compre e cuide com materiais de apoio.</b><a href="#bonus">CONHEÇA OS 5 BÔNUS →</a></aside>');
+document.querySelector('.hero-benefits').insertAdjacentHTML('afterend', '<aside class="hero-bonus-callout"><span>+ 5 BÔNUS PRÁTICOS INCLUSOS</span><b>Planeje, plante, compre e cuide com materiais de apoio.</b><a href="#bonus">CONHEÇA OS 5 BÔNUS →</a></aside>');
+
+document.querySelectorAll('.collection-book img, .final-art img').forEach(image => {
+  image.width = 1241;
+  image.height = 1754;
+});
+document.querySelector('.collection-book img')?.setAttribute('fetchpriority', 'high');
 
 document.getElementById('situations').innerHTML = situations.map(([title, text]) => `<article class="situation"><b>${title}</b><span>${text}</span></article>`).join('');
 document.getElementById('method-flow').innerHTML = method.map(([title, text]) => `<li><b>${title}</b><p>${text}</p></li>`).join('');
@@ -87,7 +93,7 @@ const previewItems = [
   ['ebook-water-06.png', 'Página sobre água e estrutura'],
   ['ebook-chickens-10.png', 'Página de organização do módulo de aves']
 ];
-document.getElementById('previews').innerHTML = previewItems.map(([image, label], index) => `<figure class="preview-card" style="--rotate:${[-2, 1.5, -1][index]}deg"><img src="public/images/${image}" alt="Página real do material: ${label}" loading="lazy"><figcaption>${label}</figcaption></figure>`).join('');
+document.getElementById('previews').innerHTML = previewItems.map(([image, label], index) => `<figure class="preview-card" style="--rotate:${[-2, 1.5, -1][index]}deg"><img src="public/images/${image}" alt="Página real do material: ${label}" width="1241" height="1754" loading="lazy"><figcaption>${label}</figcaption></figure>`).join('');
 
 const tabs = document.getElementById('project-tabs');
 const showcase = document.getElementById('project-showcase');
@@ -96,9 +102,10 @@ let activeProject = 0;
 function renderProject(index) {
   activeProject = (index + projects.length) % projects.length;
   const project = projects[activeProject];
-  tabs.innerHTML = projects.map((item, itemIndex) => `<button class="project-tab" type="button" role="tab" aria-selected="${itemIndex === activeProject}" data-project-index="${itemIndex}">${item.size}</button>`).join('');
+  tabs.innerHTML = projects.map((item, itemIndex) => `<button class="project-tab" type="button" role="tab" aria-controls="project-showcase" aria-selected="${itemIndex === activeProject}" tabindex="${itemIndex === activeProject ? '0' : '-1'}" data-project-index="${itemIndex}">${item.size}</button>`).join('');
   projectCount.textContent = `${activeProject + 1} / ${projects.length}`;
-  showcase.innerHTML = `<figure class="project-aerial"><img src="public/images/${project.image}" alt="Vista aérea panorâmica ilustrativa de como pode ficar um Sisteminha de ${project.size}" loading="lazy"><figcaption>VISTA AÉREA ILUSTRATIVA · ORGANIZAÇÃO POSSÍVEL PARA ${project.size}</figcaption></figure><div class="project-copy"><p class="project-number">PROJETO ${String(activeProject + 1).padStart(2, '0')} · ${project.size}</p><h3>${project.name}</h3><p class="project-quote">“${project.quote}”</p><p class="project-focus">${project.focus}</p><ul>${project.points.map(point => `<li>${point}</li>`).join('')}</ul></div>`;
+  showcase.setAttribute('aria-label', `Projeto de ${project.size}: ${project.name}`);
+  showcase.innerHTML = `<figure class="project-aerial"><img src="public/images/${project.image}" alt="Vista aérea panorâmica ilustrativa de como pode ficar um Sisteminha de ${project.size}" width="1440" height="1080" loading="lazy"><figcaption>VISTA AÉREA ILUSTRATIVA · ORGANIZAÇÃO POSSÍVEL PARA ${project.size}</figcaption></figure><div class="project-copy"><p class="project-number">PROJETO ${String(activeProject + 1).padStart(2, '0')} · ${project.size}</p><h3>${project.name}</h3><p class="project-quote">“${project.quote}”</p><p class="project-focus">${project.focus}</p><ul>${project.points.map(point => `<li>${point}</li>`).join('')}</ul></div>`;
   tabs.querySelectorAll('[data-project-index]').forEach(button => button.addEventListener('click', () => renderProject(Number(button.dataset.projectIndex))));
 }
 renderProject(0);
@@ -109,31 +116,14 @@ const bonusGrid = document.getElementById('bonus-grid');
 bonusGrid.innerHTML = bonuses.map((bonus, index) => `<article class="bonus-card"><div class="bonus-top" style="--tilt:${[-2, 1.2, -1, 1.5, -1.5][index]}deg"><span class="bonus-number">BÔNUS ${bonus.number}</span><h3>${bonus.title}</h3></div><p>“${bonus.prompt}”</p><small>${bonus.text}</small></article>`).join('');
 bonusGrid.insertAdjacentHTML('afterend', '<div class="bonus-controls" aria-label="Navegação dos bônus"><button type="button" data-bonus-direction="previous" aria-label="Bônus anterior">←</button><span>Deslize para conhecer os 5 bônus</span><button type="button" data-bonus-direction="next" aria-label="Próximo bônus">→</button></div>');
 document.getElementById('offer-list').innerHTML = [`Guia 00 — Qual Sisteminha é para mim?`, ...projects.map(project => `Projeto ${project.size}`), ...bonuses.map(bonus => bonus.title)].map(item => `<p>${item}</p>`).join('');
+document.querySelector('.offer-card > span').insertAdjacentHTML('afterend', '<div class="offer-collection-visual" aria-label="Coleção: Guia 00, 7 projetos e 5 bônus"><img src="public/images/ebook-cover-01.png" alt="Capa da coleção O Sisteminha do Kenji" width="1241" height="1754" loading="lazy"><div><b>GUIA 00</b><b>7 PROJETOS</b><b>5 BÔNUS</b></div></div>');
 document.getElementById('faq-grid').innerHTML = faqs.map(([question, answer]) => `<details class="faq-item"><summary>${question}</summary><p>${answer}</p></details>`).join('');
 
 const testimonialRail = document.getElementById('testimonials-rail');
-testimonialRail.innerHTML = testimonials.map(([image, quote, author]) => `<article class="testimonial-card"><img src="public/images/${image}" alt="Leitor do Sisteminha do Kenji" loading="lazy"><blockquote>${quote}</blockquote><footer><b>${author}</b></footer></article>`).join('');
+testimonialRail.innerHTML = testimonials.map(([image, quote, author]) => `<article class="testimonial-card"><img src="public/images/${image}" alt="Leitor do Sisteminha do Kenji" width="340" height="270" loading="lazy"><blockquote>${quote}</blockquote><footer><b>${author}</b></footer></article>`).join('');
 document.querySelectorAll('[data-testimonial-direction]').forEach(button => button.addEventListener('click', () => testimonialRail.scrollBy({ left: (button.dataset.testimonialDirection === 'next' ? 1 : -1) * testimonialRail.clientWidth * .82, behavior: 'smooth' })));
 
 document.querySelectorAll('[data-bonus-direction]').forEach(button => button.addEventListener('click', () => bonusGrid.scrollBy({ left: (button.dataset.bonusDirection === 'next' ? 1 : -1) * bonusGrid.clientWidth * .82, behavior: 'smooth' })));
-
-let testimonialTimer;
-const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-function stopTestimonialAutoplay() { window.clearInterval(testimonialTimer); }
-function startTestimonialAutoplay() {
-  stopTestimonialAutoplay();
-  if (window.innerWidth <= 620 || reducedMotion.matches) return;
-  testimonialTimer = window.setInterval(() => {
-    const atEnd = testimonialRail.scrollLeft >= testimonialRail.scrollWidth - testimonialRail.clientWidth - 8;
-    if (atEnd) testimonialRail.scrollTo({ left: 0, behavior: 'auto' });
-    else testimonialRail.scrollBy({ left: testimonialRail.clientWidth * .34, behavior: 'smooth' });
-  }, 7000);
-}
-['mouseenter', 'focusin', 'touchstart'].forEach(event => testimonialRail.addEventListener(event, stopTestimonialAutoplay, { passive: true }));
-['mouseleave', 'focusout'].forEach(event => testimonialRail.addEventListener(event, startTestimonialAutoplay));
-window.addEventListener('resize', startTestimonialAutoplay);
-reducedMotion.addEventListener?.('change', startTestimonialAutoplay);
-startTestimonialAutoplay();
 
 document.querySelectorAll('[data-rail]').forEach(button => button.addEventListener('click', () => { const rail = document.getElementById(button.dataset.rail); rail.scrollBy({ left: (button.classList.contains('next') ? 1 : -1) * rail.clientWidth * .72, behavior: 'smooth' }); }));
 
