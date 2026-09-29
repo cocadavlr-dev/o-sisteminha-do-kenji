@@ -11,11 +11,11 @@ const projects = [
 ];
 
 const bonuses = [
-  { number: '01', title: 'Planner do Terreno', prompt: 'Antes de começar...', text: 'Meça, desenhe e organize seu espaço no papel antes de marcar o chão.' },
-  { number: '02', title: 'Guia de Plantio do Sisteminha', prompt: 'Terminei de montar. O que eu planto?', text: 'Ajuda a escolher os cultivos e começar sem tentar plantar tudo de uma vez.' },
-  { number: '03', title: 'Lista de Compras por Tamanho', prompt: 'O que eu realmente preciso comprar?', text: 'Organiza materiais por projeto e por etapa para evitar compras no chute.' },
-  { number: '04', title: 'Calendário de Plantio', prompt: 'Será que faz sentido plantar isso agora?', text: 'Material de apoio para consultar épocas de plantio considerando região e particularidades das culturas.' },
-  { number: '05', title: 'SOS Horta', prompt: 'Tem alguma coisa errada com a planta. E agora?', text: 'Ajuda a observar folhas amarelando, murcha, furos, crescimento parado e excesso de água antes de tentar corrigir.' }
+  { number: '01', title: 'Planner do Terreno', prompt: 'Antes de começar...', text: 'Meça, desenhe e organize seu espaço no papel antes de marcar o chão.', photo: 'bonus-photo-planner.png', page: 'bonus-pages/bonus-01-planner-do-terreno-kenji-3.png', pageLabel: 'O que já existe?', stage: 'LEIA O ESPAÇO', labels: ['MEÇA', 'MARQUE', 'SETORES'] },
+  { number: '02', title: 'Guia de Plantio do Sisteminha', prompt: 'Terminei de montar. O que eu planto?', text: 'Ajuda a escolher os cultivos e começar sem tentar plantar tudo de uma vez.', photo: 'bonus-photo-plantio.png', page: 'bonus-pages/bonus-02-guia-de-plantio-do-sisteminha-kenji-10.png', pageLabel: 'Escolha poucas para começar', stage: 'PLANTE COM CALMA', labels: ['1 FOLHA', '1 TEMPERO', '1 RAIZ'] },
+  { number: '03', title: 'Lista de Compras por Tamanho', prompt: 'O que eu realmente preciso comprar?', text: 'Organiza materiais por projeto e por etapa para evitar compras no chute.', photo: 'bonus-photo-compras.png', page: 'bonus-pages/bonus-03-lista-de-compras-por-tamanho-kenji-07.png', pageLabel: 'Lista específica para o projeto', stage: 'SEPARE POR ETAPA', labels: ['MARCAR', 'MONTAR', 'PLANTAR'] },
+  { number: '04', title: 'Calendário de Plantio', prompt: 'Será que faz sentido plantar isso agora?', text: 'Material de apoio para consultar épocas de plantio considerando região e particularidades das culturas.', photo: 'bonus-photo-calendario.png', page: 'bonus-pages/bonus-04-calendario-de-plantio-kenji-3.png', pageLabel: 'Como conferir a época', stage: 'CONFIRA ANTES', labels: ['CULTURA', 'ÉPOCA', 'REGIÃO'] },
+  { number: '05', title: 'SOS Horta', prompt: 'Tem alguma coisa errada com a planta. E agora?', text: 'Ajuda a observar folhas amarelando, murcha, furos, crescimento parado e excesso de água antes de tentar corrigir.', photo: 'bonus-photo-sos.png', page: 'bonus-pages/bonus-05-sos-horta-kenji-02.png', pageLabel: 'Pare. Olhe. Toque. Anote.', stage: 'OBSERVE PRIMEIRO', labels: ['PARE', 'OLHE', 'TOQUE'] }
 ];
 
 const faqs = [
@@ -75,7 +75,7 @@ const journeyMap = [
 
 document.querySelectorAll('.checkout').forEach(link => link.href = checkout);
 document.getElementById('year').textContent = new Date().getFullYear();
-document.querySelector('.hero-benefits').insertAdjacentHTML('afterend', '<aside class="hero-bonus-callout"><span>+ 5 BÔNUS PRÁTICOS INCLUSOS</span><b>Planeje, plante, compre e cuide com materiais de apoio.</b><a href="#bonus">CONHEÇA OS 5 BÔNUS →</a></aside>');
+document.querySelector('.hero-benefits').insertAdjacentHTML('afterend', '<aside class="hero-bonus-callout"><span>+ 5 BÔNUS PRÁTICOS INCLUSOS</span><b>Planner, Guia de Plantio, Lista de Compras, Calendário e SOS Horta.</b><div class="hero-bonus-mini" aria-hidden="true"><i>01</i><i>02</i><i>03</i><i>04</i><i>05</i></div><a href="#bonus">VEJA OS 5 MATERIAIS →</a></aside>');
 
 document.querySelectorAll('.collection-book img, .final-art img').forEach(image => {
   image.width = 1241;
@@ -139,15 +139,15 @@ window.setInterval(() => { if (!projectPaused && !reducedPreviewMotion.matches) 
 
 document.getElementById('offer-stack').innerHTML = `<article class="stack-block"><span>GUIA 00</span><h3>Escolha seu começo</h3><p>Observe o espaço real antes de abrir um projeto.</p></article><article class="stack-block"><span>7 PROJETOS COMPLETOS</span><h3>10 a 500 m²</h3><div class="stack-numbers">${projects.map(item => `<b>${item.size.replace(' m²', '')}</b>`).join('')}</div></article><article class="stack-block"><span>5 BÔNUS PRÁTICOS</span><h3>Apoio para continuar</h3><p>Materiais para planejar, plantar, comprar e observar.</p></article>`;
 const bonusGrid = document.getElementById('bonus-grid');
-bonusGrid.innerHTML = bonuses.map((bonus, index) => `<article class="bonus-card"><div class="bonus-top" style="--tilt:${[-2, 1.2, -1, 1.5, -1.5][index]}deg"><span class="bonus-number">BÔNUS ${bonus.number}</span><h3>${bonus.title}</h3></div><p>“${bonus.prompt}”</p><small>${bonus.text}</small></article>`).join('');
+bonusGrid.innerHTML = bonuses.map((bonus, index) => `<article class="bonus-card bonus-card--${bonus.number}" style="--tilt:${[-1.1, .7, -.5, .9, -.7][index]}deg"><div class="bonus-scene"><img src="public/images/${bonus.photo}" alt="Situação ilustrativa de uso do ${bonus.title}" width="1536" height="1024" loading="lazy"><span class="bonus-number">BÔNUS ${bonus.number}</span><span class="bonus-stage">${bonus.stage}</span><div class="bonus-labels" aria-label="Etapas sugeridas">${bonus.labels.map(label => `<b>${label}</b>`).join('')}</div></div><div class="bonus-proof"><img src="public/images/${bonus.page}" alt="Página real do ${bonus.title}: ${bonus.pageLabel}" width="993" height="1404" loading="lazy"><div><span>PÁGINA REAL</span><b>${bonus.pageLabel}</b></div></div><div class="bonus-copy"><h3>${bonus.title}</h3><p>“${bonus.prompt}”</p><small>${bonus.text}</small></div></article>`).join('');
 bonusGrid.insertAdjacentHTML('afterend', '<div class="bonus-controls" aria-label="Navegação dos bônus"><button type="button" data-bonus-direction="previous" aria-label="Bônus anterior">←</button><span>Deslize para conhecer os 5 bônus</span><button type="button" data-bonus-direction="next" aria-label="Próximo bônus">→</button></div>');
 document.getElementById('offer-list').innerHTML = [`Guia 00 — Qual Sisteminha é para mim?`, ...projects.map(project => `Projeto ${project.size}`), ...bonuses.map(bonus => bonus.title)].map(item => `<p>${item}</p>`).join('');
 document.querySelector('.offer-card > span').insertAdjacentHTML('afterend', '<div class="offer-collection-visual" aria-label="Coleção: Guia 00, 7 projetos e 5 bônus"><img src="public/images/ebook-cover-01.png" alt="Capa da coleção O Sisteminha do Kenji" width="1241" height="1754" loading="lazy"><div><b>GUIA 00</b><b>7 PROJETOS</b><b>5 BÔNUS</b></div></div>');
 document.getElementById('faq-grid').innerHTML = faqs.map(([question, answer]) => `<details class="faq-item"><summary>${question}</summary><p>${answer}</p></details>`).join('');
 
 const testimonialRail = document.getElementById('testimonials-rail');
-const testimonialMarkup = testimonials.map(([image, quote, author]) => `<article class="testimonial-card"><img src="public/images/${image}" alt="Leitor do Sisteminha do Kenji" width="340" height="270" loading="lazy"><blockquote>${quote}</blockquote><footer><b>${author}</b></footer></article>`).join('');
-testimonialRail.innerHTML = testimonialMarkup + testimonials.map(([image, quote, author]) => `<article class="testimonial-card" aria-hidden="true"><img src="public/images/${image}" alt="" width="340" height="270" loading="lazy"><blockquote>${quote}</blockquote><footer><b>${author}</b></footer></article>`).join('');
+const testimonialMarkup = testimonials.map(([image, quote, author]) => `<article class="testimonial-card"><div class="testimonial-photo"><img src="public/images/${image}" alt="Leitor do Sisteminha do Kenji" width="340" height="270" loading="lazy"><span>DEPOIMENTO REAL</span></div><blockquote>${quote}</blockquote><footer><b>${author}</b></footer></article>`).join('');
+testimonialRail.innerHTML = testimonialMarkup + testimonials.map(([image, quote, author]) => `<article class="testimonial-card" aria-hidden="true"><div class="testimonial-photo"><img src="public/images/${image}" alt="" width="340" height="270" loading="lazy"><span>DEPOIMENTO REAL</span></div><blockquote>${quote}</blockquote><footer><b>${author}</b></footer></article>`).join('');
 let testimonialsPaused = false;
 let testimonialLastFrame = 0;
 function moveTestimonials(timestamp) {
